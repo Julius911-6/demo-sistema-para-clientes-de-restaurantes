@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="Sistema de gestión de caja y ventas para El Sabroso">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50' y='65' font-size='90' text-anchor='middle'>🍗</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23667eea' width='180' height='180' rx='40'/><text x='90' y='110' font-size='120' dominant-baseline='middle' text-anchor='middle'>🍗</text></svg>">
+    <title>Sistema de Caja - El Sabroso</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🍗 El Sabroso</h1>
+                <p>Sistema de Gestión de Caja y Ventas</p>
+            </div>
+            <div class="user-info">
+                <span id="currentTime"></span>
+            </div>
+        </header>
+
+        <!-- Navegación -->
+        <nav class="navbar">
+            <button class="nav-btn active" data-section="ventas">💰 Ventas</button>
+            <button class="nav-btn" data-section="inventario">📦 Inventario</button>
+            <button class="nav-btn" data-section="reportes">📊 Reportes</button>
+            <button class="nav-btn" data-section="configuracion">⚙️ Config</button>
+        </nav>
+
+        <!-- SECCIÓN: VENTAS -->
+        <section id="ventas" class="section active">
+            <div class="section-title">💰 Gestión de Ventas</div>
+            
+            <div class="sales-container">
+                <!-- Panel de Productos -->
+                <div class="products-panel">
+                    <h2>Productos</h2>
+                    <div class="products-grid" id="productsGrid"></div>
+                </div>
+
+                <!-- Carrito de Compra -->
+                <div class="cart-panel">
+                    <h2>Carrito de Compra</h2>
+                    <div id="cartItems" class="cart-items"></div>
+                    
+                    <div class="cart-summary">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Descuento:</span>
+                            <input type="number" id="discount" min="0" max="100" value="0" step="0.5" placeholder="%">
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="total">$0.00</span>
+                        </div>
+                        <div class="payment-method">
+                            <label>
+                                <input type="radio" name="payment" value="efectivo" checked> Efectivo
+                            </label>
+                            <label>
+                                <input type="radio" name="payment" value="tarjeta"> Tarjeta
+                            </label>
+                            <label>
+                                <input type="radio" name="payment" value="transferencia"> Transferencia
+                            </label>
+                        </div>
+                        <button class="btn-primary" id="completeSale">✓ Completar Venta</button>
+                        <button class="btn-secondary" id="clearCart">✕ Limpiar Carrito</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: INVENTARIO -->
+        <section id="inventario" class="section">
+            <div class="section-title">📦 Gestión de Inventario</div>
+            
+            <div class="inventory-controls">
+                <button class="btn-secondary" id="btnAddProduct">+ Agregar Producto</button>
+            </div>
+
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Stock</th>
+                        <th>Precio</th>
+                        <th>Valor Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTable"></tbody>
+            </table>
+        </section>
+
+        <!-- SECCIÓN: REPORTES -->
+        <section id="reportes" class="section">
+            <div class="section-title">📊 Reportes y Estadísticas</div>
+            
+            <div class="reports-filters">
+                <label>
+                    Desde:
+                    <input type="date" id="reportFrom">
+                </label>
+                <label>
+                    Hasta:
+                    <input type="date" id="reportTo">
+                </label>
+                <button class="btn-secondary" id="generateReport">Generar Reporte</button>
+            </div>
+
+            <div class="reports-container">
+                <div class="report-card">
+                    <h3>Resumen del Día</h3>
+                    <div class="stat">
+                        <span class="label">Total de Ventas:</span>
+                        <span class="value" id="totalSales">$0.00</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Número de Transacciones:</span>
+                        <span class="value" id="totalTransactions">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Ticket Promedio:</span>
+                        <span class="value" id="avgTicket">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h3>Métodos de Pago</h3>
+                    <div id="paymentBreakdown"></div>
+                </div>
+
+                <div class="report-card">
+                    <h3>Productos Más Vendidos</h3>
+                    <div id="topProducts"></div>
+                </div>
+            </div>
+
+            <div class="reports-history">
+                <h3>Historial de Ventas</h3>
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>Productos</th>
+                            <th>Total</th>
+                            <th>Método</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salesHistory"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CONFIGURACIÓN -->
+        <section id="configuracion" class="section">
+            <div class="section-title">⚙️ Configuración</div>
+            
+            <div class="config-card">
+                <h3>Caja del Sistema</h3>
+                <div class="config-item">
+                    <label>Saldo Inicial de Hoy:</label>
+                    <span id="initialCash">$0.00</span>
+                    <input type="number" id="setCash" min="0" step="0.01" placeholder="0.00">
+                    <button class="btn-secondary" id="setCashBtn">Establecer</button>
+                </div>
+            </div>
+
+            <div class="config-card">
+                <h3>Copia de Seguridad</h3>
+                <button class="btn-secondary" id="exportData">📥 Descargar Datos</button>
+                <button class="btn-secondary" id="importData">📤 Importar Datos</button>
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
+            </div>
+
+            <div class="config-card">
+                <h3>Acciones</h3>
+                <button class="btn-danger" id="resetDay">🔄 Resetear Día (Vaciar Caja)</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal para agregar producto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Agregar Nuevo Producto</h2>
+            <form id="productForm">
+                <input type="text" id="productName" placeholder="Nombre del Producto" required>
+                <input type="number" id="productPrice" placeholder="Precio" min="0" step="0.01" required>
+                <input type="number" id="productStock" placeholder="Stock Inicial" min="0" step="1" required>
+                <input type="text" id="productImage" placeholder="URL de Imagen (opcional)">
+                <button type="submit" class="btn-primary">Agregar Producto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+    <script>
+        // Registrar Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {
+                // Service Worker no disponible, pero la app funciona normalmente
+            });
+        }
+    </script>
+</body>
+</html>

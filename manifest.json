@@ -1,0 +1,43 @@
+{
+  "name": "El Sabroso - Sistema de Caja",
+  "short_name": "El Sabroso",
+  "description": "Sistema de gestión de ventas y caja para El Sabroso",
+  "version": "1.0.0",
+  "author": "Julius911-6",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23667eea' width='192' height='192'/><text x='50%' y='50%' font-size='100' dominant-baseline='middle' text-anchor='middle' fill='white'>🍗</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23667eea' width='540' height='720'/><text x='270' y='360' font-size='150' dominant-baseline='middle' text-anchor='middle' fill='white'>🍗</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nueva Venta",
+      "short_name": "Venta",
+      "description": "Ir a módulo de ventas",
+      "url": "./index.html?section=ventas"
+    },
+    {
+      "name": "Reportes",
+      "short_name": "Reportes",
+      "description": "Ver reportes del día",
+      "url": "./index.html?section=reportes"
+    }
+  ]
+}
